@@ -1,5 +1,5 @@
 //
-//  Double+Extensions.swift
+//  StockData.swift
 //  StockTracker
 //
 //  Created by Janarthanan Kannan on 04/04/26.
