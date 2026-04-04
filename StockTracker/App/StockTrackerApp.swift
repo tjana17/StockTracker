@@ -11,7 +11,16 @@ import SwiftUI
 struct StockTrackerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
+    }
+}
+
+
+private struct RootView: View {
+
+    var body: some View {
+        let mockViewModel = StockListViewModel()
+        return StockListView(viewModel: mockViewModel)
     }
 }
