@@ -20,8 +20,22 @@ struct StockTrackerApp: App {
 private struct RootView: View {
 
     @StateObject private var viewModel = AppContainer.shared.makeStockListViewModel()
+    @State private var showSplash = true
     
     var body: some View {
-       StockListView(viewModel: viewModel)
+        ZStack {
+            if showSplash {
+                SplashScreenView {
+                    showSplash = false
+                }
+                .transition(.opacity)
+                .zIndex(1)
+            } else {
+                StockListView(viewModel: viewModel)
+                    .transition(.opacity)
+                    .zIndex(0)
+            }
+        }
+        .animation(.easeInOut(duration: 0.55), value: showSplash)
     }
 }
