@@ -19,7 +19,7 @@ protocol StockRepositoryProtocol: AnyObject {
 
 // MARK: - StockUpdateMessage
 
-private struct StockUpdateMessage: Codable {
+struct StockUpdateMessage: Codable {
     let symbol: String
     let price: Double
 }
