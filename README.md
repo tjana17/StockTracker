@@ -159,6 +159,30 @@ The app follows **Clean Architecture** with three distinct layers and an **MVVM*
 
 ---
 
+## Unit Tests
+
+Run tests with `Cmd + U` in Xcode.
+
+### StockListViewModelTests (4 tests)
+
+| Test | Description |
+|---|---|
+| `test_initialState` | ViewModel starts disconnected with an empty stock list |
+| `test_toggleConnection_connectsAndDisconnects` | Toggling calls connect then disconnect on the repository |
+| `test_stocks_populateFromRepository` | Stock list updates when the repository emits stocks |
+| `test_sortByPrice_isDescending` | Sorting by price produces a descending order |
+
+### StockRepositoryTests (4 tests)
+
+| Test | Description |
+|---|---|
+| `test_connectionLifecycle` | `connect()` and `disconnect()` each delegate to WebSocketManager |
+| `test_receivedMessage_updatesStockWithCorrectChange` | Valid JSON updates the stock price and computes change accurately |
+| `test_malformedMessage_doesNotCrash` | Malformed JSON is silently ignored without crashing |
+| `test_unknownSymbol_doesNotAlterStocks` | Unknown ticker symbols do not trigger a stocks emission |
+
+---
+
 ## Stocks Included
 
 | Symbol | Company |
