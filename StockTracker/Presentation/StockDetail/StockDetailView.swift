@@ -21,7 +21,7 @@ struct StockDetailView: View {
             }
             .padding()
         }
-        .navigationTitle("NVDA")
+        .navigationTitle(viewModel.stock.symbol)
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(.systemGroupedBackground).ignoresSafeArea())
     }
@@ -30,9 +30,9 @@ struct StockDetailView: View {
 
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("NVDA")
+            Text(viewModel.stock.symbol)
                 .font(.largeTitle.bold())
-            Text("NVDIA Group")
+            Text(viewModel.stock.name)
                 .font(.headline)
                 .foregroundStyle(.secondary)
         }
@@ -40,10 +40,10 @@ struct StockDetailView: View {
     
     private var priceSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("$158.33")
+            Text(viewModel.stock.formattedPrice)
                 .font(.system(size: 44, weight: .bold, design: .rounded))
                 .contentTransition(.numericText())
-                .animation(.easeInOut(duration: 0.3), value: "$158.33")
+                .animation(.easeInOut(duration: 0.3), value: viewModel.stock.price)
 
             PriceChangeView(stock: viewModel.stock, style: .large)
 
@@ -69,18 +69,22 @@ struct StockDetailView: View {
             Text("About")
                 .font(.title3.bold())
 
-            Text("A leading publicly traded company listed on major US stock exchanges.")
+            Text(StockData.description(for: viewModel.stock.symbol))
                 .font(.body)
                 .foregroundStyle(.secondary)
                 .lineSpacing(5)
         }
         .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(.background, in: RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
     }
 }
 
-//#Preview {
-//    let mockViewModel = StockDetailViewModel(stock: Stock)
-//    StockDetailView(viewModel: mockViewModel)
-//}
+#Preview {
+    let stock = Stock(id: "AAPL", symbol: "AAPL", name: "Apple Inc.",
+                      price: 182.50, previousPrice: 180.00, change: 2.50, changePercent: 1.38)
+    NavigationStack {
+        StockDetailView(viewModel: AppContainer.shared.makeStockDetailViewModel(for: stock))
+    }
+}

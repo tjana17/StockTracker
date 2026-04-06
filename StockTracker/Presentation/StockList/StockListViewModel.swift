@@ -29,25 +29,40 @@ final class StockListViewModel: ObservableObject {
     }
     @Published private(set) var connectionState: ConnectionState = .disconnected
     @Published private(set) var displayedStocks: [Stock] = []
-    private var allStocks: [Stock] = StockData.initialStocks
+    
 
     var isConnected: Bool  { connectionState.isConnected }
     var isConnecting: Bool { connectionState.isConnecting }
     
+    private let repository: StockRepositoryProtocol
+    private var allStocks: [Stock] = []
+    private var cancellables = Set<AnyCancellable>()
+    
     // MARK: - Init
-    init() {
-        applySort()
-        
+    init(repository: StockRepositoryProtocol) {
+        self.repository = repository
+        setupSubscriptions()
     }
     
     // MARK: - Inputs
 
     func toggleConnection() {
-        if isConnected || isConnecting {
-            print("Disconnect")
-        } else {
-            print("Connect")
-        }
+        isConnected || isConnecting ? repository.disconnect() : repository.connect()
+    }
+    
+    private func setupSubscriptions() {
+        repository.stockPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] stocks in
+                self?.allStocks = stocks
+                self?.applySort()
+            }
+            .store(in: &cancellables)
+        
+        repository.connectionStatePublisher
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.connectionState, on: self)
+            .store(in: &cancellables)
     }
     
     private func applySort() {

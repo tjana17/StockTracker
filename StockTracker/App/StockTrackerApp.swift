@@ -19,8 +19,9 @@ struct StockTrackerApp: App {
 
 private struct RootView: View {
 
+    @StateObject private var viewModel = AppContainer.shared.makeStockListViewModel()
+    
     var body: some View {
-        let mockViewModel = StockListViewModel()
-        return StockListView(viewModel: mockViewModel)
+       StockListView(viewModel: viewModel)
     }
 }

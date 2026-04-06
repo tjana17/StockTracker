@@ -42,7 +42,7 @@ struct StockListView: View {
         .listStyle(.plain)
         .navigationDestination(for: Stock.self) { stock in
             StockDetailView(
-                viewModel: makeStockDetailViewModel(for: stock)
+                viewModel: AppContainer.shared.makeStockDetailViewModel(for: stock)
             )
         }
         .animation(.default, value: viewModel.displayedStocks.map(\.id))
@@ -96,7 +96,5 @@ struct StockListView: View {
 }
 
 #Preview {
-    // Provide a simple mock or default initializer for preview purposes
-    let mockViewModel = StockListViewModel()
-    return StockListView(viewModel: mockViewModel)
+    StockListView(viewModel: AppContainer.shared.makeStockListViewModel())
 }
