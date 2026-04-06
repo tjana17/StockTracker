@@ -215,6 +215,12 @@ None. The app uses only native Apple frameworks:
 
 ---
 
+<h3>Screens</h3>
+<hr>
+<div style="float:left">
+<img src="Screen/stock_tracker.gif"  width = "393" height = "852" />
+</div>
+
 ## License
 
 This project is available for personal and educational use.
